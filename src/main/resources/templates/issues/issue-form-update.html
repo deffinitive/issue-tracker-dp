@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Reference Bootstrap files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+
+    <title>Zadanie</title>
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/plus/">
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/arrow-left/">
+
+</head>
+
+<body>
+
+<div th:insert="~{sidebar :: sidebar}"></div>
+
+<div class="container moveFromMenu">
+    <div class="form row marginBottom">
+        <form sec:authorize="hasAnyAuthority('Administrátor', 'Manažér' )" th:action="@{delete}" method="post">
+            <input type="hidden" name="issueId" th:value="${issue.issueId}"/>
+
+            <input type="button" name="btn" value="Odstrániť" id="submitBtn" data-toggle="modal"
+                   data-target="#confirm-submit" class="btn btn-danger"/>
+            <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Potvrdiť vymazanie
+                        </div>
+                        <div class="modal-body">
+                            Naozaj chcete vymazať toto zadanie?
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
+                            <button type="submit" class="btn btn-danger">Odstrániť</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <form action="#" th:action="@{/issues/saveUpdate}"
+          th:object="${issue}" method="POST">
+
+        <div class="form row pt-4 mb-1">
+            <label for="issueId" class="h2 col-sm-2" style="margin-top: 0px">Zadanie
+                č.</label> <input type="text" id="issueId" th:field="*{issueId}"
+                                  style="margin-top: 0px; padding: 8px 0px 0px"
+                                  class="h2 formId col-sm-1 border-0" th:readonly="true"> <input
+                type="text" th:field="*{issueName}"
+                style="margin-top: 0px; padding: 8px 0px 0px"
+                class="h2 col-4 col-sm-9 border-0">
+        </div>
+
+        <!--  ROW 1 -->
+        <div class="row">
+
+            <!-- COL 1 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Stav:</label>
+                    <div class="col-sm-10">
+                        <select id="status" th:field="*{status}"
+                                class="form-control mb-4">
+                            <option value="Určené na vývoj">Určené na vývoj</option>
+                            <option value="Prebieha">Prebieha</option>
+                            <option value="Kontrola">Kontrola</option>
+                            <option value="Vyvinuté">Vyvinuté</option>
+                            <option value="Čakanie">Čakanie</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL 2 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="estimatedTime" class="col-sm-3 col-form-label">Odhad.
+                        čas:</label>
+                    <div class="col-sm-9">
+                        <input id="estimatedTime" type="time" th:field="*{estimatedTime}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- COL 3 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="createdBy" class="col-sm-3 col-form-label">Vytvoril:</label>
+                    <div class="col-sm-9">
+                        <input id="createdBy" type="text" th:name="createdBy" th:value="${issue.createdBy}"
+                               class="form-control mb-4" th:readonly="true">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--  ROW 2 -->
+        <!-- COL1 -->
+        <div class="row">
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="priority" class="col-sm-2 col-form-label">Priorita:</label>
+                    <div class="col-sm-10">
+                        <select id="priority" th:field="*{priority}"
+                                class="form-control mb-4">
+                            <option value="Kritická">Kritická</option>
+                            <option value="Veľmi dôležitá">Veľmi dôležitá</option>
+                            <option value="Vysoká">Vysoká</option>
+                            <option value="Stredná">Stredná</option>
+                            <option value="Nízka">Nízka</option>
+                            <option value="Najnižšia">Najnižšia</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL2 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="spentTime" class="col-sm-3 col-form-label">Odpracované:</label>
+                    <div class="col-sm-9">
+                        <input id="spentTime" type="time" th:field="*{spentTime}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+            <!-- COL3 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="created" class="col-sm-3 col-form-label">V čase:</label>
+                    <div class="col-sm-9">
+                        <input id="created" type="datetime-local" th:name="created"
+                               th:value="${#temporals.format(issue.created, 'dd.MM.yyyy')}" th:field="*{created}"
+                               class="form-control mb-4" th:readonly="true"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 3 -->
+        <!-- COL 1 -->
+        <div class="row">
+            <p>Popis zadania</p>
+            <div class="col-6 col-sm-7">
+                <div class="form-group row ">
+						<textarea th:field="*{issueDescription}"
+                                  class="form-control mb-4 col-4" placeholder="Issue Description"
+                                  rows="10"> </textarea>
+                </div>
+            </div>
+
+            <!-- COL 2 -->
+            <div class="col-6 col-sm-1"></div>
+
+            <!-- COL 3 -->
+            <div class="col-6 col-sm-4">
+                <p>Priradené osoby</p>
+                <th:block th:each="person : ${persons}">
+                    <div>
+
+                        <input type="checkbox" class="m-2" th:field="*{persons}"
+                               th:text="${person.firstName} + ' ' + ${person.lastName}"
+                               th:value="${person.id}"/>
+
+                    </div>
+                </th:block>
+
+            </div>
+
+
+        </div>
+
+
+        <hr>
+        <button type="submit" class="btn btn-success btn-lg col-2">Uložiť</button>
+
+    </form>
+    <br>
+
+
+    <br> <a th:href="@{/issues/list}" class="btn btn-outline-danger">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+         fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+    </svg>
+    Vrátiť sa na zoznam zadaní
+</a>
+
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,137 @@
+-- -----------------------------------------------------
+-- Schema issue_tracker_db
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `issue_tracker_db` 
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+USE `issue_tracker_db` ;
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`project` (
+  `project_id` INT NOT NULL AUTO_INCREMENT,
+  `project_name` VARCHAR(255) NOT NULL,
+  `target_end_date` DATETIME NOT NULL,
+  `actual_end_date` DATETIME NULL DEFAULT NULL,
+  `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`project_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`issue`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`issue` (
+  `issue_id` INT NOT NULL AUTO_INCREMENT,
+  `issue_name` VARCHAR(255) NOT NULL,
+  `issue_description` VARCHAR(4000) NOT NULL,
+  `estimated_time` VARCHAR(10) NOT NULL,
+  `spent_time` VARCHAR(10) NULL DEFAULT NULL,
+  `created` TIMESTAMP NULL DEFAULT NULL,
+  `created_by` VARCHAR(255) NULL DEFAULT NULL,
+  `priority` VARCHAR(45) NULL DEFAULT NULL,
+  `status` VARCHAR(45) NULL DEFAULT NULL,
+  `type` VARCHAR(45) NULL DEFAULT NULL,
+  `project_project_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`issue_id`),
+  INDEX `fk_issue_project1_idx` (`project_project_id` ASC) VISIBLE,
+  CONSTRAINT `fk_issue_project1`
+    FOREIGN KEY (`project_project_id`)
+    REFERENCES `issue_tracker_db`.`project` (`project_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`person`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`person` (
+  `person_id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(255) NOT NULL,
+  `last_name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` CHAR(80) NOT NULL,
+  PRIMARY KEY (`person_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`person_issue`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`person_issue` (
+  `person_person_id` INT NOT NULL,
+  `issue_issue_id` INT NOT NULL,
+  PRIMARY KEY (`person_person_id`, `issue_issue_id`),
+  INDEX `fk_person_issue_person1_idx` (`person_person_id` ASC) VISIBLE,
+  INDEX `fk_person_issue_issue1_idx` (`issue_issue_id` ASC) VISIBLE,
+  CONSTRAINT `fk_person_issue_issue1`
+    FOREIGN KEY (`issue_issue_id`)
+    REFERENCES `issue_tracker_db`.`issue` (`issue_id`),
+  CONSTRAINT `fk_person_issue_person1`
+    FOREIGN KEY (`person_person_id`)
+    REFERENCES `issue_tracker_db`.`person` (`person_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`person_project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`person_project` (
+  `person_person_id` INT NOT NULL,
+  `project_project_id` INT NOT NULL,
+  PRIMARY KEY (`person_person_id`, `project_project_id`),
+  INDEX `fk_table1_person1_idx` (`person_person_id` ASC) VISIBLE,
+  INDEX `fk_table1_project1_idx` (`project_project_id` ASC) VISIBLE,
+  CONSTRAINT `fk_table1_person1`
+    FOREIGN KEY (`person_person_id`)
+    REFERENCES `issue_tracker_db`.`person` (`person_id`),
+  CONSTRAINT `fk_table1_project1`
+    FOREIGN KEY (`project_project_id`)
+    REFERENCES `issue_tracker_db`.`project` (`project_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`role` (
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`role_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `issue_tracker_db`.`person_role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issue_tracker_db`.`person_role` (
+  `person_person_id` INT NOT NULL,
+  `role_role_id` INT NOT NULL,
+  PRIMARY KEY (`person_person_id`, `role_role_id`),
+  INDEX `fk_person_role_person1_idx` (`person_person_id` ASC) VISIBLE,
+  INDEX `fk_person_role_role1_idx` (`role_role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_person_role_person1`
+    FOREIGN KEY (`person_person_id`)
+    REFERENCES `issue_tracker_db`.`person` (`person_id`),
+  CONSTRAINT `fk_person_role_role1`
+    FOREIGN KEY (`role_role_id`)
+    REFERENCES `issue_tracker_db`.`role` (`role_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;

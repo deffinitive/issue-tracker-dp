@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<section th:fragment="sidebar">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><a th:href="@{/issues/listMyIssues}">Issue Tracker</a></h3>
+        </div>
+
+        <ul class="list-unstyled components">
+
+            <li><a th:href="@{/projects/list}">Všetky projekty</a></li>
+            <li><a th:href="@{/projects/listMyProjects}">Moje projekty</a></li>
+            <li><a th:href="@{/issues/list}">Všetky zadania</a></li>
+            <li><a th:href="@{/issues/listMyIssues}">Moje zadania</a></li>
+            <li sec:authorize="hasAnyAuthority('Administrátor', 'Manažér' )"><a
+                    th:href="@{/persons/list}">Zamestnanci</a>
+            </li>
+            <li sec:authorize="hasAuthority('Administrátor')"><a th:href="@{/register/showRegistrationForm}"
+                                                                 class="register-user" role="button"
+                                                                 aria-pressed="true">Registrovať
+                nového používateľa</a></li>
+        </ul>
+
+        <div style="padding-top: 20px">
+            <p>Prihlásený používateľ</p>
+            <div>
+                <p th:if="${session.user}"
+                   th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></p>
+                <form th:action="@{/logout}" method="POST" style="text-align:center">
+
+                    <input type="submit" class="btn btn-info" value="Odhlásiť sa">
+
+                </form>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+</body>
+</html>

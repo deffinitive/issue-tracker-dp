@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Reference Bootstrap files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+
+    <title>Zamestnanec</title>
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/plus/">
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/arrow-left/">
+
+</head>
+
+<body>
+
+<div th:insert="~{sidebar :: sidebar}"></div>
+
+<div class="container moveFromMenu">
+
+    <form th:action="@{/persons/save}" th:object="${person}" method="POST">
+
+        <div class="form row pt-4 mb-1">
+            <label for="issueId" class="h2 col-sm-3" style="margin-top: 0px">Zamestnanec č.</label>
+            <input type="text" id="issueId" th:field="*{id}"
+                   style="margin-top: 0px; padding: 8px 0px 0px"
+                   class="h2 formId col-sm-1 border-0" th:readonly="true">
+
+        </div>
+
+        <!--  ROW 1 -->
+        <div class="row">
+
+            <!-- COL 1 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="firstName" class="col-sm-3 col-form-label">Meno:</label>
+                    <div class="col-sm-9">
+                        <input id="firstName" type="text" th:field="*{firstName}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL 2 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+
+
+            <!-- COL 3 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+            <input id="password" type="hidden" th:field="*{password}"
+                   class="form-control mb-4 ">
+        </div>
+
+        <!-- ROW 2 -->
+
+        <div class="row">
+
+            <!-- COL 1 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="lastName" class="col-sm-3 col-form-label">Priezvisko</label>
+                    <div class="col-sm-9">
+                        <input id="lastName" type="text" th:field="*{lastName}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL 2 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+
+
+            <!-- COL 3 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+
+        </div>
+
+        <!-- ROW 3 -->
+        <div class="row">
+
+            <!-- COL 1 -->
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-form-label">Email:</label>
+                    <div class="col-sm-9">
+                        <input id="email" type="text" th:field="*{email}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL 2 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+
+
+            <!-- COL 3 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+
+        </div>
+
+        <!--  ROW 4 -->
+        <!-- COL1 -->
+        <div class="row">
+            <div class="col-6 col-sm-4">
+                <div class="form-group row">
+                    <label for="role" class="col-sm-2 col-form-label">Pozícia:</label>
+                    <div class="col-sm-10">
+                        <th:block th:each="role : ${roles}">
+                            <div>
+
+                                <input id="role" type="checkbox" th:field="*{roles}" th:text="${role.name}"
+                                       th:value="${role.id}"/>
+
+                            </div>
+                        </th:block>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- COL2 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+            <!-- COL3 -->
+            <div class="col-6 col-sm-4">
+
+            </div>
+        </div>
+
+
+        <hr>
+        <button type="submit" class="btn btn-success btn-lg col-2">Uložiť</button>
+
+    </form>
+    <br>
+
+    <br> <a th:href="@{/persons/list}" class="btn btn-outline-danger">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+         fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+    </svg>
+    Vrátiť sa na zoznam zamestnancov
+</a>
+
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

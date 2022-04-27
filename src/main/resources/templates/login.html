@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Reference Bootstrap files -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+
+<body>
+
+
+<div class="container login-container">
+    <div class="row"></div>
+    <div class="col-md-3"></div>
+
+
+    <div class="row">
+        <div class="col-md-6 login-form">
+            <h3>Prihlásenie</h3>
+
+            <!-- Login Form -->
+            <form th:action="@{/authenticateTheUser}" method="POST"
+                  class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-xs-15">
+                        <div>
+
+                            <!-- Check for login error -->
+                            <div th:if="${param.error}"
+                                 class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                Nesprávne meno alebo heslo
+                            </div>
+
+                            <!-- Check for logout -->
+                            <div th:if="${param.logout}"
+                                 class="alert alert-success col-xs-offset-1 col-xs-10">
+                                Boli ste úspešne odhlasený!
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control"
+                           placeholder="Prihlasovacie meno"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Heslo"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Prihlásiť sa"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

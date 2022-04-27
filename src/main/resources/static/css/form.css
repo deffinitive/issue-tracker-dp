@@ -1,0 +1,32 @@
+.formId {
+    background-color: #fafafa;
+    border-color: #fafafa;
+    padding: 0px;
+    border-width: 0px;
+    width: 50px;
+    max-width: 110px;
+}
+
+.marginBottom {
+    margin-bottom: 12px;
+}
+
+label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0px;
+    word-spacing: 2px;
+    color: #000000;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    padding-top: 8px
+}
+
+.assignedPeople {
+    background-color: #fafafa;
+    border-width: 0px;
+    width: 50px;
+    max-width: 110px;
+}

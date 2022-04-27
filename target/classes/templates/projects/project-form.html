@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Reference Bootstrap files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+
+    <title>Projekt</title>
+
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/plus/">
+    <link rel="canonical" href="https://icons.getbootstrap.com/icons/arrow-left/">
+
+
+</head>
+
+<body>
+
+<div th:insert="~{sidebar :: sidebar}"></div>
+
+<div class="container moveFromMenu">
+
+    <form action="#" th:action="@{/projects/save}"
+          th:object="${project}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{projectId}"/>
+
+        <div class="form row pt-4 mb-1 h2">
+            <label for="projectName" class="h2 col-6 col-sm-3" style="margin-top:0px">Názov projektu</label>
+            <input type="text" id="projectName" th:field="*{projectName}" class="col-6 col-sm-8 border-0">
+        </div>
+
+        <input type="hidden" th:field="*{created}">
+
+        <div class="row">
+            <!-- COL 1 -->
+            <div class="col-6 col-sm-6">
+                <div class="form-group row">
+                    <label for="targetEndDate" class="col-sm-4 col-form-label">Predpokladané
+                        ukončenie projektu:</label>
+                    <div class="col-sm-8">
+                        <input id="targetEndDate" type="date" th:field="*{targetEndDate}"
+                               class="form-control mb-4 ">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6">
+                <!-- EMPTY -->
+            </div>
+        </div>
+
+
+        <input type="hidden" th:name="createdBy"
+               th:value="${session.user.firstName} + ' ' + ${session.user.lastName}"/>
+
+
+        <button type="submit" class="btn btn-info col-2">Save</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/projects/list}" class="btn btn-outline-danger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+             viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Vrátiť sa na zoznam projektov</a>
+
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

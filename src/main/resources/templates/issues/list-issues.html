@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Reference Bootstrap files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+
+    <title>Zoznam zadaní</title>
+</head>
+
+<body>
+<div th:insert="~{sidebar :: sidebar}"></div>
+<div class="container moveFromMenu">
+
+    <a sec:authorize="hasAnyAuthority('Administrátor', 'Manažér' )" th:href="@{/issues/showFormNewIssue}"
+       class="btn btn-success font-weight-bold" style="margin-bottom:15px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+             viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        Vytvoriť nové zadanie
+    </a>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Názov</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priorita</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="tempIssue : ${issues}" th:value="${tempIssue.issueId}">
+
+            <td scope="row" th:text="${tempIssue.issueId}"/>
+            <td th:text="${tempIssue.issueName}"/>
+            <td th:text="${tempIssue.status}"/>
+            <td th:text="${tempIssue.priority}"/>
+            <td>
+                <div class="col-small">
+                    <form action="#" th:action="@{/issues/showFormChangeIssue}"
+                          method="POST">
+
+                        <input type="hidden" name="issueId"
+                               th:value="${tempIssue.issueId}"/>
+                        <button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Zobraziť detail</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+</div>
+
+<script>
+    function orderRowClick(row) {
+        row.querySelector("a").click();
+    }
+</script>
+
+</body>
+</html>
+
+
+
